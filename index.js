@@ -57,14 +57,18 @@ app.route("/youtube_search").post(async (req, res) => {
 });
 
 app.route("/download_chrome_ex").get((req, res) => {
-  const videoUrl = req.query.videoUrl;
-  if (!videoUrl.includes("www.youtube.com/watch")) {
-    res.status(400).send("This is not a YouTube page.");
-  } else {
-    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
-    ytdl(videoUrl, {
-      format: "mp4",
-    }).pipe(res);
+  try {
+    const videoUrl = req.query.videoUrl;
+    if (!videoUrl.includes("www.youtube.com/watch")) {
+      res.status(400).send("This is not a YouTube page.");
+    } else {
+      res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
+      ytdl(videoUrl, {
+        format: "mp4",
+      }).pipe(res);
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
