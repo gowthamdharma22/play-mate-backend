@@ -1,6 +1,7 @@
 import express from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { YoutubeTranscript } from "youtube-transcript";
+import yts from "yt-search";
 import { config } from "dotenv";
 import ytdl from "ytdl-core";
 
@@ -40,6 +41,18 @@ app.route("/summarize").post(async (req, res) => {
   } catch (error) {
     console.log(error);
     res.send(error);
+  }
+});
+
+app.route("/youtube_search").post(async (req, res) => {
+  const value = req.body.value;
+  try {
+    const r = await yts(value);
+    const channels = r.channels;
+    res.status(200).send(channels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 
