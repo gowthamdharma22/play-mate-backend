@@ -4,11 +4,13 @@ import { YoutubeTranscript } from "youtube-transcript";
 import yts from "yt-search";
 import { config } from "dotenv";
 import ytdl from "ytdl-core";
+import cors from "cors";
 
 const app = express();
 
 config();
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
 
